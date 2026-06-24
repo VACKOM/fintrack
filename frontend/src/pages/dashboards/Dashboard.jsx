@@ -1,5 +1,6 @@
 import styles from "./Dashboard.module.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
+
 const Dashboard = () => {
   const accounts = [
     { name: "Salary Account", balance: 25000 },

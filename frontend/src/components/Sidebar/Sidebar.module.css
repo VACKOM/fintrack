@@ -11,16 +11,13 @@
   border-top-right-radius: 40px;
   border-bottom-right-radius: 40px;
 
-  display: flex;
-  flex-direction: column;
-
   box-shadow: 8px 0 25px rgba(0, 0, 0, 0.2);
 }
 
 .logo {
-  color: white;
-  text-align: center;
-  margin-bottom: 40px;
+  width: 160px;
+  margin: 0 auto 20px;
+  display: block;
 }
 
 .navLinks {
@@ -30,7 +27,11 @@
   flex: 1;
 }
 
-.navLinks a {
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
   color: white;
   text-decoration: none;
 
@@ -38,14 +39,47 @@
 
   border-radius: 14px;
 
-  transition: 0.3s;
-
   font-weight: 600;
+
+  transition: all 0.3s ease;
 }
 
-.navLinks a:hover {
+.navLink:hover {
   background: rgba(255, 255, 255, 0.15);
   transform: translateX(5px);
+}
+
+.activeLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  color: white;
+  text-decoration: none;
+
+  padding: 14px 18px;
+
+  border-radius: 14px;
+
+  font-weight: 600;
+
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.icon {
+  padding: 8px;
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.15);
+
+  font-size: 16px;
+
+  min-width: 34px;
+  min-height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .logoutBtn {
@@ -61,6 +95,8 @@
   cursor: pointer;
 
   font-weight: 600;
+
+  transition: 0.3s;
 }
 
 .logoutBtn:hover {
@@ -74,10 +110,12 @@
     height: auto;
 
     border-radius: 0 0 30px 30px;
+
     padding: 20px;
   }
 
   .logo {
+    width: 130px;
     margin-bottom: 20px;
   }
 
@@ -87,7 +125,8 @@
     justify-content: center;
   }
 
-  .navLink {
+  .navLink,
+  .activeLink {
     padding: 10px 14px;
   }
 
