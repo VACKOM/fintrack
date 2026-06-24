@@ -1,0 +1,126 @@
+.loginPage {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.loginCard {
+  width: 100%;
+  max-width: 450px;
+  padding: 35px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.logo {
+  width: 180px;
+  display: block;
+  margin: 0 auto 20px;
+}
+
+.loginCard h2 {
+  text-align: center;
+  color: white;
+  margin-bottom: 25px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formGroup label {
+  color: white;
+  font-weight: 600;
+  margin-bottom: 6px;
+  text-align: left;
+  width: 100%;
+  display: block;
+}
+
+.formGroup input {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  outline: none;
+}
+
+.formGroup input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.formGroup input:focus {
+  border-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.loginBtn {
+  padding: 13px;
+  border-radius: 10px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.loginBtn:hover {
+  background: #1d4ed8;
+}
+
+.footerText {
+  text-align: center;
+  color: white;
+  margin-top: 20px;
+}
+
+.footerText span {
+  color: #93c5fd;
+  cursor: pointer;
+}
+
+.successMessage,
+.errorMessage {
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.successMessage {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.errorMessage {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.link {
+  color: #93c5fd;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.link:hover {
+  text-decoration: underline;
+}

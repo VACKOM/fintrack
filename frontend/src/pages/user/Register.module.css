@@ -1,0 +1,176 @@
+.registerPage {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.registerCard {
+  width: 100%;
+  max-width: 450px;
+  padding: 35px;
+
+  background: rgba(255, 255, 255, 0.15);
+
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  border-radius: 20px;
+
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+}
+
+.logo {
+  display: block;
+  width: 280px;
+  max-width: 100%;
+  margin: 0 auto 20px;
+}
+
+.tagline {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup input {
+  padding: 12px 14px;
+
+  background: rgba(255, 255, 255, 0.1);
+
+  border: 1px solid rgba(255, 255, 255, 0.3);
+
+  border-radius: 10px;
+
+  color: white;
+
+  outline: none;
+
+  transition: 0.3s ease;
+}
+
+.formGroup input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.formGroup input:focus {
+  border-color: rgba(255, 255, 255, 0.7);
+
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.registerCard h2 {
+  color: white;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.formGroup label {
+  color: white;
+  margin-bottom: 6px;
+  font-weight: 600;
+  text-align: left;
+  width: 100%;
+  display: block;
+}
+
+.registerBtn {
+  margin-top: 10px;
+  padding: 13px;
+
+  background: rgba(255, 255, 255, 0.2);
+
+  color: white;
+
+  border: 1px solid rgba(255, 255, 255, 0.3);
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  font-weight: 600;
+
+  transition: all 0.3s ease;
+}
+
+.registerBtn:hover {
+  background: rgba(255, 255, 255, 0.3);
+
+  transform: translateY(-2px);
+}
+
+.registerBtn:hover {
+  background-color: #1d4ed8;
+}
+
+.registerPage::before {
+  content: "";
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  top: 10%;
+  left: 15%;
+  filter: blur(80px);
+}
+
+.registerPage::after {
+  content: "";
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  bottom: 10%;
+  right: 15%;
+  filter: blur(80px);
+}
+.successMessage {
+  background-color: #dcfce7;
+  color: #166534;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.errorMessage {
+  background-color: #fee2e2;
+  color: #991b1b;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+.link {
+  color: #93c5fd;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
