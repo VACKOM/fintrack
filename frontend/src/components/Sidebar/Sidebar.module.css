@@ -67,16 +67,31 @@
   background: #1d4ed8;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   .sidebar {
     width: 100%;
     min-height: auto;
+    height: auto;
 
     border-radius: 0 0 30px 30px;
+    padding: 20px;
+  }
+
+  .logo {
+    margin-bottom: 20px;
   }
 
   .navLinks {
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .navLink {
+    padding: 10px 14px;
+  }
+
+  .logoutBtn {
+    margin-top: 15px;
   }
 }

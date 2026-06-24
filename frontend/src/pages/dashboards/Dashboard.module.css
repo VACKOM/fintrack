@@ -108,3 +108,18 @@
     grid-template-columns: 1fr;
   }
 }
+@media (max-width: 992px) {
+  .dashboardPage {
+    flex-direction: column;
+  }
+
+  .dashboard {
+    padding: 20px;
+  }
+
+  .row1,
+  .row2,
+  .row3 {
+    grid-template-columns: 1fr;
+  }
+}
