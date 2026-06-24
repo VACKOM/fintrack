@@ -123,3 +123,77 @@
     grid-template-columns: 1fr;
   }
 }
+
+.doughnutBox {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  margin-top: 15px;
+}
+
+.centerText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  color: white;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.centerText strong {
+  font-size: 1.3rem;
+}
+
+.centerText span {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+.recharts-tooltip-wrapper {
+  z-index: 10 !important;
+}
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 10px;
+  color: white;
+  font-size: 0.85rem;
+}
+
+.legend div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.whiteDot,
+.blueDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.whiteDot {
+  background: white;
+}
+
+.blueDot {
+  background: #93c5fd;
+}
+.lineChartBox {
+  width: 100%;
+  height: 300px;
+  margin-top: 20px;
+}
+.barChartBox {
+  width: 100%;
+  height: 300px;
+  margin-top: 20px;
+}
