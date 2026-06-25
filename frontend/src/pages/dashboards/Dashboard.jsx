@@ -1,5 +1,7 @@
 import styles from "./Dashboard.module.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
+import { useEffect, useState } from "react";
+import { getDashboardSummary } from "../../services/dashboardService";
 
 import {
   PieChart,
@@ -16,6 +18,29 @@ import {
   Bar,
 } from "recharts";
 const Dashboard = () => {
+  const [summary, setSummary] = useState({
+    totalIncome: 0,
+    totalExpense: 0,
+  });
+
+  const [error, setError] = useState();
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchSummary = async () => {
+      try {
+        const data = await getDashboardSummary();
+        setSummary(data.summary);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+        setError("Failed to load Dashboard Summary");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchSummary();
+  }, []);
+
   const accounts = [
     { name: "Salary Account", balance: 25000 },
     { name: "Investment Account", balance: 32000 },
@@ -70,6 +95,14 @@ const Dashboard = () => {
     { item: "DSTV", value: 190 },
   ];
 
+  if (loading) {
+    return <p>Loading dashboard...</p>;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
+
   return (
     <div className={styles.dashboardPage}>
       <Sidebar />
@@ -80,7 +113,7 @@ const Dashboard = () => {
         <div className={styles.row1}>
           <div className={styles.card}>
             <h3>Expected Income</h3>
-            <h2>GHS 8,500</h2>
+            <h2>GHS {summary.totalIncome}</h2>
             <p>Actual income against predicted income</p>
 
             <div className={styles.doughnutBox}>
@@ -127,7 +160,7 @@ const Dashboard = () => {
           </div>
           <div className={styles.card}>
             <h3>Total Expenses</h3>
-            <h2>GHS 4,200</h2>
+            <h2>GHS ${summary.totalExpense}</h2>
             <p>Actual expenses against predicted expenses</p>
 
             <div className={styles.doughnutBox}>
