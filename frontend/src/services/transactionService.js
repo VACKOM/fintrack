@@ -9,3 +9,8 @@ export const getAllTransactions = async () => {
   const response = await api.get("/transactions");
   return response.data;
 };
+
+export const updateTransaction = async (id, transactionData) => {
+  const response = await api.put(`/transactions/${id}`, transactionData);
+  return response.data;
+};

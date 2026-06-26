@@ -1,99 +1,4 @@
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.formGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.formGroup label {
-  color: white;
-  font-weight: 600;
-  text-align: left;
-}
-
-.formGroup input,
-.formGroup select,
-.formGroup textarea {
-  padding: 12px 14px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  outline: none;
-  font-size: 15px;
-  font-family: inherit;
-}
-
-.formGroup textarea {
-  min-height: 100px;
-  resize: vertical;
-}
-
-.formGroup input::placeholder,
-.formGroup textarea::placeholder {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.formGroup input:focus,
-.formGroup select:focus,
-.formGroup textarea:focus {
-  border-color: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-}
-
-.formGroup select option {
-  background: #312e81;
-  color: white;
-}
-
-.transactionBtn {
-  padding: 14px;
-  border: none;
-  border-radius: 10px;
-  background: #2563eb;
-  color: white;
-  font-weight: 600;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.transactionBtn:hover {
-  background: #1d4ed8;
-  transform: translateY(-2px);
-}
-
-.transactionBtn:active {
-  transform: translateY(0);
-}
-
-.successMessage,
-.errorMessage {
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 18px;
-  text-align: center;
-  font-weight: 600;
-}
-
-.successMessage {
-  background: rgba(34, 197, 94, 0.2);
-  color: #bbf7d0;
-  border: 1px solid rgba(34, 197, 94, 0.4);
-}
-
-.errorMessage {
-  background: rgba(239, 68, 68, 0.2);
-  color: #fecaca;
-  border: 1px solid rgba(239, 68, 68, 0.4);
-}
-
-.transactionPage {
+.transactionsPage {
   min-height: 100vh;
   width: 100vw;
   display: flex;
@@ -104,33 +9,175 @@
   flex: 1;
   min-height: 100vh;
   padding: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
   overflow-y: auto;
 }
 
 .transactionCard {
   width: 100%;
-  max-width: 650px;
-  padding: 30px;
-  border-radius: 20px;
-
+  padding: 28px;
+  border-radius: 22px;
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .transactionCard h1 {
   color: white;
-  margin-bottom: 25px;
+  margin-bottom: 22px;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.searchInput {
+  width: 320px;
+  padding: 13px 15px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  outline: none;
+}
+
+.searchInput::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.addBtn,
+.transactionBtn,
+.editBtn {
+  border: none;
+  border-radius: 12px;
+  background: #2563eb;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.addBtn {
+  padding: 13px 18px;
+}
+
+.transactionBtn {
+  padding: 14px;
+}
+
+.editBtn {
+  padding: 8px 11px;
+}
+
+.formPanel {
+  margin-bottom: 24px;
+  padding: 22px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.formGroup label {
+  color: white;
+  font-weight: 600;
+}
+
+.formGroup input,
+.formGroup select,
+.formGroup textarea,
+.gridInput {
+  padding: 11px 13px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  outline: none;
+  font-family: inherit;
+}
+
+.formGroup textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.formGroup select option,
+.gridInput option {
+  background: #312e81;
+  color: white;
+}
+
+.gridWrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 16px;
+}
+
+.transactionGrid {
+  width: 100%;
+  border-collapse: collapse;
+  color: white;
+  min-width: 900px;
+}
+
+.transactionGrid th,
+.transactionGrid td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.transactionGrid th {
+  background: rgba(255, 255, 255, 0.14);
+  font-weight: 700;
+}
+
+.transactionGrid tr:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.gridInput {
+  width: 100%;
+  min-width: 120px;
+}
+
+.successMessage,
+.errorMessage {
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 18px;
   text-align: center;
+  font-weight: 600;
+}
+
+.successMessage {
+  background: rgba(34, 197, 94, 0.2);
+  color: #bbf7d0;
+}
+
+.errorMessage {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fecaca;
+}
+
+.emptyText {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 @media (max-width: 992px) {
-  .transactionPage {
+  .transactionsPage {
     flex-direction: column;
   }
 
@@ -138,7 +185,15 @@
     padding: 20px;
   }
 
-  .transactionCard {
-    max-width: 100%;
+  .toolbar {
+    flex-direction: column;
+  }
+
+  .searchInput {
+    width: 100%;
+  }
+
+  .form {
+    grid-template-columns: 1fr;
   }
 }
