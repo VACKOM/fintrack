@@ -38,7 +38,7 @@ const Accounts = () => {
         setAccounts(accountList);
       } catch (error) {
         console.log(error.response?.data || error.message);
-        setError("Failed to load Accounts records");
+        setError("Failed to load Accounts data");
       } finally {
         setLoading(false);
       }
