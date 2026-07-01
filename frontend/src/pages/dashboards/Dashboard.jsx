@@ -2,6 +2,7 @@ import styles from "./Dashboard.module.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { useEffect, useState } from "react";
 import { getDashboardSummary } from "../../services/dashboardService";
+import { getAllAccounts } from "../../services/accountServices";
 
 import {
   PieChart,
@@ -22,9 +23,10 @@ const Dashboard = () => {
     totalIncome: 0,
     totalExpense: 0,
   });
-
+  const [accounts, setAccounts] = useState({});
   const [error, setError] = useState();
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchSummary = async () => {
       try {
@@ -41,11 +43,27 @@ const Dashboard = () => {
     fetchSummary();
   }, []);
 
-  const accounts = [
-    { name: "Salary Account", balance: 25000 },
-    { name: "Investment Account", balance: 32000 },
-    { name: "Savings Account", balance: 12000 },
-  ];
+  useEffect(() => {
+    const fetchAccounts = async () => {
+      try {
+        const data = await getAllAccounts();
+        console.log(data);
+        setAccounts(data.accounts);
+      } catch (error) {
+        console.log(error);
+        setError("Failed to load Accounts records");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAccounts();
+  }, []);
+
+  //   const accounts = [
+  //     { name: "Salary Account", balance: 25000 },
+  //     { name: "Investment Account", balance: 32000 },
+  //     { name: "Savings Account", balance: 12000 },
+  //   ];
 
   const upcomingExpenses = [
     { name: "Rent", amount: 1600 },
@@ -208,8 +226,8 @@ const Dashboard = () => {
             <h3>Account Balances</h3>
 
             {accounts.map((account) => (
-              <div className={styles.accountItem} key={account.name}>
-                <span>{account.name}</span>
+              <div className={styles.accountItem} key={account.accountName}>
+                <span>{account.accountName}</span>
                 <strong>GHS {account.balance}</strong>
               </div>
             ))}

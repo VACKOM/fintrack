@@ -8,15 +8,33 @@ import styles from "./Transactions.module.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
 
 const Transaction = () => {
+  // ==============================
+  // State Management
+  // ==============================
+
+  // Stores all transactions retrieved from the backend
   const [transactions, setTransactions] = useState([]);
+
+  // Stores the text entered into the search box
   const [searchTerm, setSearchTerm] = useState("");
+
+  // Controls whether the Create Transaction form is displayed
   const [showForm, setShowForm] = useState(false);
+
+  // Stores the id of the transaction currently being edited
   const [editingId, setEditingId] = useState(null);
+
+  // Stores the values of the transaction currently being edited
   const [editedRow, setEditedRow] = useState({});
+
+  // Displays error and success messages
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  // Indicates whether data is still loading
   const [loading, setLoading] = useState(true);
 
+  // Holds the Create Transaction form values
   const [formData, setFormData] = useState({
     name: "",
     type: "",
@@ -26,13 +44,14 @@ const Transaction = () => {
     notes: "",
   });
 
+  // ======================================
+  // Fetch all transactions when page loads
+  // ======================================
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
         const data = await getAllTransactions();
-
         const transactionList = data.transactions || data.data || [];
-
         setTransactions(transactionList);
       } catch (error) {
         console.log(error.response?.data || error.message);
@@ -45,6 +64,9 @@ const Transaction = () => {
     fetchTransactions();
   }, []);
 
+  // ======================================
+  // Filter transactions based on search text
+  // ======================================
   const filteredTransactions = Array.isArray(transactions)
     ? transactions.filter(
         (transaction) =>
@@ -56,6 +78,9 @@ const Transaction = () => {
       )
     : [];
 
+  // ======================================
+  // Updates Create Transaction form fields
+  // ======================================
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -65,6 +90,9 @@ const Transaction = () => {
     });
   };
 
+  // ======================================
+  // Creates a new transaction
+  // ======================================
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -82,8 +110,10 @@ const Transaction = () => {
 
       const newTransaction = response.transaction || response.data || response;
 
+      // Add newly created transaction to the top of the grid
       setTransactions((prev) => [newTransaction, ...prev]);
 
+      // Clear the form after successful submission
       setFormData({
         name: "",
         type: "",
@@ -93,6 +123,7 @@ const Transaction = () => {
         notes: "",
       });
 
+      // Close the form
       setShowForm(false);
     } catch (error) {
       console.log(error.response?.data || error.message);
@@ -100,11 +131,17 @@ const Transaction = () => {
     }
   };
 
+  // ======================================
+  // Enables inline editing for a selected row
+  // ======================================
   const handleEditClick = (transaction) => {
     setEditingId(transaction._id);
     setEditedRow(transaction);
   };
 
+  // ======================================
+  // Updates values while editing a row
+  // ======================================
   const handleEditChange = (e) => {
     const { name, value } = e.target;
 
@@ -114,6 +151,9 @@ const Transaction = () => {
     });
   };
 
+  // ======================================
+  // Saves edited transaction when input loses focus
+  // ======================================
   const handleBlurSave = async () => {
     try {
       const payload = {
@@ -126,11 +166,14 @@ const Transaction = () => {
       const updatedTransaction =
         response.transaction || response.data || payload;
 
+      // Update the edited transaction in the table
       setTransactions((prev) =>
         prev.map((item) => (item._id === editingId ? updatedTransaction : item))
       );
 
+      // Exit edit mode
       setEditingId(null);
+
       setSuccess("Transaction updated successfully");
     } catch (error) {
       console.log(error.response?.data || error.message);
@@ -138,18 +181,29 @@ const Transaction = () => {
     }
   };
 
+  // Display loading indicator while fetching transactions
   if (loading) {
     return <p>Loading transactions...</p>;
   }
 
   return (
+    // Main page container
     <div className={styles.transactionsPage}>
+      {/* Left Sidebar Navigation */}
       <Sidebar />
 
+      {/* Main Content Area */}
       <div className={styles.transactionContent}>
+        {/* Glassmorphism Card containing the transaction module */}
         <div className={styles.transactionCard}>
+          {/* Page Title */}
           <h1>Transactions</h1>
 
+          {/* =========================
+              Toolbar
+              - Search transactions
+              - Show/Hide Create Transaction Form
+          ========================== */}
           <div className={styles.toolbar}>
             <input
               type="text"
@@ -167,12 +221,19 @@ const Transaction = () => {
             </button>
           </div>
 
+          {/* Display Success and Error Messages */}
           {success && <p className={styles.successMessage}>{success}</p>}
           {error && <p className={styles.errorMessage}>{error}</p>}
 
+          {/* =========================
+              Create Transaction Form
+              Displayed only when the
+              Add Transaction button is clicked
+          ========================== */}
           {showForm && (
             <div className={styles.formPanel}>
               <form onSubmit={handleSubmit} className={styles.form}>
+                {/* Transaction Name */}
                 <div className={styles.formGroup}>
                   <label>Name</label>
                   <input
@@ -184,6 +245,7 @@ const Transaction = () => {
                   />
                 </div>
 
+                {/* Transaction Type */}
                 <div className={styles.formGroup}>
                   <label>Type</label>
                   <select
@@ -197,6 +259,7 @@ const Transaction = () => {
                   </select>
                 </div>
 
+                {/* Transaction Amount */}
                 <div className={styles.formGroup}>
                   <label>Amount</label>
                   <input
@@ -208,6 +271,7 @@ const Transaction = () => {
                   />
                 </div>
 
+                {/* Transaction Category */}
                 <div className={styles.formGroup}>
                   <label>Category</label>
                   <input
@@ -219,6 +283,7 @@ const Transaction = () => {
                   />
                 </div>
 
+                {/* Payment Method */}
                 <div className={styles.formGroup}>
                   <label>Payment Method</label>
                   <select
@@ -235,6 +300,7 @@ const Transaction = () => {
                   </select>
                 </div>
 
+                {/* Optional Notes */}
                 <div className={styles.formGroup}>
                   <label>Notes</label>
                   <textarea
@@ -245,6 +311,7 @@ const Transaction = () => {
                   />
                 </div>
 
+                {/* Submit Button */}
                 <button type="submit" className={styles.transactionBtn}>
                   Save
                 </button>
@@ -252,8 +319,12 @@ const Transaction = () => {
             </div>
           )}
 
+          {/* =========================
+              Editable Transactions Grid
+          ========================== */}
           <div className={styles.gridWrapper}>
             <table className={styles.transactionGrid}>
+              {/* Table Header */}
               <thead>
                 <tr>
                   <th>Name</th>
@@ -266,7 +337,9 @@ const Transaction = () => {
                 </tr>
               </thead>
 
+              {/* Table Body */}
               <tbody>
+                {/* Display message if no transactions exist */}
                 {filteredTransactions.length === 0 ? (
                   <tr>
                     <td colSpan="7" className={styles.emptyText}>
@@ -274,8 +347,10 @@ const Transaction = () => {
                     </td>
                   </tr>
                 ) : (
+                  /* Render each transaction */
                   filteredTransactions.map((transaction) => (
                     <tr key={transaction._id}>
+                      {/* Transaction Name */}
                       <td>
                         {editingId === transaction._id ? (
                           <input
@@ -290,6 +365,7 @@ const Transaction = () => {
                         )}
                       </td>
 
+                      {/* Transaction Type */}
                       <td>
                         {editingId === transaction._id ? (
                           <select
@@ -307,6 +383,7 @@ const Transaction = () => {
                         )}
                       </td>
 
+                      {/* Category */}
                       <td>
                         {editingId === transaction._id ? (
                           <input
@@ -321,6 +398,7 @@ const Transaction = () => {
                         )}
                       </td>
 
+                      {/* Payment Method */}
                       <td>
                         {editingId === transaction._id ? (
                           <select
@@ -341,6 +419,7 @@ const Transaction = () => {
                         )}
                       </td>
 
+                      {/* Transaction Amount */}
                       <td>
                         {editingId === transaction._id ? (
                           <input
@@ -356,6 +435,7 @@ const Transaction = () => {
                         )}
                       </td>
 
+                      {/* Transaction Notes */}
                       <td>
                         {editingId === transaction._id ? (
                           <input
@@ -370,6 +450,7 @@ const Transaction = () => {
                         )}
                       </td>
 
+                      {/* Enable Inline Editing */}
                       <td>
                         <button
                           type="button"
