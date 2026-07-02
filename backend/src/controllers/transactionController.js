@@ -5,10 +5,7 @@ export const createTransaction = async (req, res) => {
     const { type, name, amount, paymentMethod, notes, category } = req.body;
 
     if (!type || !name || amount == undefined || !category) {
-      console.log("nooooooooo");
-      return res
-        .status(400)
-        .json({ message: "Please provide all fields ....kjhjhj...." });
+      return res.status(400).json({ message: "Please provide all fields." });
     }
     const transaction = await Transaction.create({
       userId: req.user._id,

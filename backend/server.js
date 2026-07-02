@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import authRoutes from "./src/routes/api/authRoutes.js";
 import transactionRoutes from "./src/routes/api/transactionRoutes.js";
 import accountRoutes from "./src/routes/api/accountRoutes.js";
+import budgetRoutes from "./src/routes/api/budgetRoutes.js";
 
 import dbConnect from "./src/config/db.js";
 
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/accounts", accountRoutes);
+app.use("/api/budgets", budgetRoutes);
 
 //app.use("/api/auth", authRoutes);
 
