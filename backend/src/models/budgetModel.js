@@ -50,7 +50,7 @@ const BudgetSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
-    PaymentMethod: {
+    paymentMethod: {
       type: String,
       enum: ["cash", "bank", "momo", "card", "others"],
     },

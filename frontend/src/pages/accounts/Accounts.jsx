@@ -33,9 +33,9 @@ const Accounts = () => {
     const fetchAccounts = async () => {
       try {
         const results = await getAllAccounts();
-        console.log(results);
         const accountList = results.accounts || [];
         setAccounts(accountList);
+        console.log(results);
       } catch (error) {
         console.log(error.response?.data || error.message);
         setError("Failed to load Accounts data");

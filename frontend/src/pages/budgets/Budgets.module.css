@@ -1,0 +1,211 @@
+.BudgetsPage {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.BudgetContent {
+  flex: 1;
+  min-height: 100vh;
+  padding: 30px;
+  overflow-y: auto;
+}
+
+.BudgetCard {
+  width: 100%;
+  padding: 28px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.BudgetCard h1 {
+  color: white;
+  margin-bottom: 22px;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.searchInput {
+  width: 320px;
+  padding: 13px 15px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  outline: none;
+}
+
+.searchInput::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.addBtn,
+.BudgetBtn,
+.editBtn {
+  border: none;
+  border-radius: 12px;
+  background: #2563eb;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.addBtn {
+  padding: 13px 18px;
+}
+
+.BudgetBtn {
+  padding: 14px;
+}
+
+.editBtn {
+  padding: 8px 11px;
+}
+
+.addBtn:hover,
+.BudgetBtn:hover,
+.editBtn:hover {
+  background: #1d4ed8;
+}
+
+.formPanel {
+  margin-bottom: 24px;
+  padding: 22px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.formGroup label {
+  color: white;
+  font-weight: 600;
+}
+
+.formGroup input,
+.formGroup select,
+.formGroup textarea,
+.gridInput {
+  padding: 11px 13px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  outline: none;
+  font-family: inherit;
+}
+
+.formGroup input::placeholder,
+.formGroup textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.formGroup textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.formGroup select option,
+.gridInput option {
+  background: #312e81;
+  color: white;
+}
+
+.gridWrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 16px;
+}
+
+.BudgetGrid {
+  width: 100%;
+  border-collapse: collapse;
+  color: white;
+  min-width: 850px;
+}
+
+.BudgetGrid th,
+.BudgetGrid td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.BudgetGrid th {
+  background: rgba(255, 255, 255, 0.14);
+  font-weight: 700;
+}
+
+.BudgetGrid tr:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.gridInput {
+  width: 100%;
+  min-width: 120px;
+}
+
+.successMessage,
+.errorMessage {
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 18px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.successMessage {
+  background: rgba(34, 197, 94, 0.2);
+  color: #bbf7d0;
+}
+
+.errorMessage {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fecaca;
+}
+
+.emptyText {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+@media (max-width: 992px) {
+  .BudgetsPage {
+    flex-direction: column;
+  }
+
+  .BudgetContent {
+    padding: 20px;
+  }
+
+  .toolbar {
+    flex-direction: column;
+  }
+
+  .searchInput {
+    width: 100%;
+  }
+
+  .form {
+    grid-template-columns: 1fr;
+  }
+}

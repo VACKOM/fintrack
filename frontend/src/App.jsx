@@ -4,6 +4,7 @@ import Login from "./pages/user/Login";
 import Dashboard from "./pages/dashboards/Dashboard";
 import Transactions from "./pages/transactions/Transactions";
 import Accounts from "./pages/accounts/Accounts";
+import Budgets from "./pages/budgets/Budgets";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/transactions" element={<Transactions />} />
         <Route path="/accounts" element={<Accounts />} />
+        <Route path="/budgets" element={<Budgets />} />
       </Routes>
     </BrowserRouter>
   );
