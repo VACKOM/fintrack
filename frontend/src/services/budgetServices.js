@@ -10,7 +10,7 @@ export const getAllBudgets = async () => {
   return response.data;
 };
 
-export const updateBudget = async (budgetUpdate) => {
-  const response = await api.put("/budgets", budgetUpdate);
+export const updateBudget = async (id, budgetData) => {
+  const response = await api.put(`/budgets/${id}`, budgetData);
   return response.data;
 };

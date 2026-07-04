@@ -111,7 +111,10 @@ const Budgets = () => {
 
   const handleEditClick = (budget) => {
     setEditingId(budget._id);
-    setEditedRow(budget);
+    setEditedRow({
+      ...budget,
+      dueDate: budget.dueDate ? budget.dueDate.substring(0, 10) : "",
+    });
   };
 
   // ======================================
@@ -121,21 +124,21 @@ const Budgets = () => {
   const handleEditChange = (e) => {
     const { name, value } = e.target;
 
-    setEditedRow({
-      ...editedRow,
+    setEditedRow((prev) => ({
+      ...prev,
       [name]: value,
-    });
+    }));
   };
 
   // ======================================
   // Saves edited Budget when input loses focus
   // ======================================
 
-  const handleBlurSave = async () => {
+  const handleBlurSave = async (updatedRow = editedRow) => {
     try {
       const payload = {
-        ...editedRow,
-        amount: Number(editedRow.amount),
+        ...updatedRow,
+        amount: Number(updatedRow.amount),
       };
       const response = await updateBudget(editingId, payload);
       const updatedBudget = response.budget || response.data || payload;
@@ -378,7 +381,7 @@ const Budgets = () => {
                             name="budgetName"
                             value={editedRow.budgetName || ""}
                             onChange={handleEditChange}
-                            onBlur={handleBlurSave}
+                            onBlur={() => handleBlurSave()}
                             className={styles.gridInput}
                           />
                         ) : (
@@ -393,7 +396,7 @@ const Budgets = () => {
                             name="category"
                             value={editedRow.category || ""}
                             onChange={handleEditChange}
-                            onBlur={handleBlurSave}
+                            onBlur={() => handleBlurSave()}
                             className={styles.gridInput}
                           />
                         ) : (
@@ -409,7 +412,7 @@ const Budgets = () => {
                             name="amount"
                             value={editedRow.amount || ""}
                             onChange={handleEditChange}
-                            onBlur={handleBlurSave}
+                            onBlur={() => handleBlurSave()}
                             className={styles.gridInput}
                           />
                         ) : (
@@ -424,7 +427,7 @@ const Budgets = () => {
                             name="paymentMethod"
                             value={editedRow.paymentMethod || ""}
                             onChange={handleEditChange}
-                            onBlur={handleBlurSave}
+                            onBlur={() => handleBlurSave()}
                             className={styles.gridInput}
                           >
                             <option value="">
@@ -447,7 +450,7 @@ const Budgets = () => {
                             name="frequency"
                             value={editedRow.frequency || ""}
                             onChange={handleEditChange}
-                            onBlur={handleBlurSave}
+                            onBlur={() => handleBlurSave()}
                             className={styles.gridInput}
                           >
                             <option value="daily">Daily</option>
@@ -468,7 +471,7 @@ const Budgets = () => {
                             name="recipient"
                             value={editedRow.recipient || ""}
                             onChange={handleEditChange}
-                            onBlur={handleBlurSave}
+                            onBlur={() => handleBlurSave()}
                             className={styles.gridInput}
                           />
                         ) : (
@@ -483,7 +486,7 @@ const Budgets = () => {
                             name="dueDate"
                             value={editedRow.dueDate || ""}
                             onChange={handleEditChange}
-                            onBlur={handleBlurSave}
+                            onBlur={() => handleBlurSave()}
                             className={styles.gridInput}
                           />
                         ) : (
@@ -498,7 +501,7 @@ const Budgets = () => {
                             name="notes"
                             value={editedRow.notes || ""}
                             onChange={handleEditChange}
-                            onBlur={handleBlurSave}
+                            onBlur={() => handleBlurSave()}
                             className={styles.gridInput}
                           />
                         ) : (
@@ -511,9 +514,13 @@ const Budgets = () => {
                         <button
                           type="button"
                           className={styles.editBtn}
-                          onClick={() => handleEditClick(budget)}
+                          onClick={() =>
+                            editingId === budget._id
+                              ? handleBlurSave()
+                              : handleEditClick(budget)
+                          }
                         >
-                          ✓
+                          {editingId === budget._id ? "Save" : "✓"}
                         </button>
                       </td>
                     </tr>
