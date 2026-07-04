@@ -46,9 +46,18 @@ const BudgetSchema = new mongoose.Schema(
       enum: ["daily", "weekly", "monthly", "quarterly", "yearly", "one - time"],
       required: true,
     },
-    dueDate: {
+    nextDueDate: {
       type: Date,
       required: true,
+    },
+    reminderDaysBefore: {
+      type: Number,
+      default: 7,
+    },
+
+    isRecurring: {
+      type: Boolean,
+      default: true,
     },
     paymentMethod: {
       type: String,

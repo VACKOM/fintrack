@@ -23,7 +23,9 @@ const Budgets = () => {
     amount: 0,
     paymentMethod: "",
     recipient: "",
-    dueDate: "",
+    nextDueDate: "",
+    isRecurring: false,
+    reminderDaysBefore: "",
     notes: "",
   });
 
@@ -95,7 +97,9 @@ const Budgets = () => {
         amount: 0,
         paymentMethod: "",
         recipient: "",
-        dueDate: "",
+        nextDueDate: "",
+        isRecurring: "",
+        reminderDaysBefore: "",
         notes: "",
       });
       setShowForm(false);
@@ -113,7 +117,9 @@ const Budgets = () => {
     setEditingId(budget._id);
     setEditedRow({
       ...budget,
-      dueDate: budget.dueDate ? budget.dueDate.substring(0, 10) : "",
+      nextDueDate: budget.nextDueDate
+        ? budget.nextDueDate.substring(0, 10)
+        : "",
     });
   };
 
@@ -235,7 +241,7 @@ const Budgets = () => {
                     <option value="Utilities">Utilities</option>
                     <option value="Internet">Internet</option>
                     <option value="Healthcare">Healthcare</option>
-                    <option value="Education">Transportation</option>
+                    <option value="Education">Education</option>
                     <option value="Entertainment">Entertainment</option>
                     <option value="Travel">Travel</option>
                     <option value="Savings">Savings</option>
@@ -282,6 +288,7 @@ const Budgets = () => {
                     placeholder="Enter amount"
                   />
                 </div>
+
                 {/* Account Type */}
                 <div className={styles.formGroup}>
                   <label>Payment Method</label>
@@ -301,14 +308,40 @@ const Budgets = () => {
 
                 {/* Optional due date */}
                 <div className={styles.formGroup}>
-                  <label>Due Date</label>
+                  <label>Next Due Date</label>
                   <input
                     type="date"
-                    name="dueDate"
-                    value={formData.dueDate}
+                    name="nextDueDate"
+                    value={formData.nextDueDate}
                     onChange={handleChange}
                     placeholder="Enter Due Date"
                   />
+                </div>
+
+                {/* Optional due date */}
+                <div className={styles.formGroup}>
+                  <label>Reminder Days Before</label>
+                  <input
+                    type="number"
+                    name="reminderDaysBefore"
+                    value={formData.reminderDaysBefore}
+                    onChange={handleChange}
+                    placeholder="Enter number of days before reminder"
+                  />
+                </div>
+
+                {/* is Recurring*/}
+                <div className={styles.formGroup}>
+                  <label>Is Recurring?</label>
+                  <select
+                    name="isRecurring"
+                    value={formData.isRecurring}
+                    onChange={handleChange}
+                  >
+                    <option value="">Select Recurrance</option>
+                    <option value="true">True</option>
+                    <option value="false">False</option>
+                  </select>
                 </div>
 
                 {/* Optional recipient */}
@@ -356,6 +389,8 @@ const Budgets = () => {
                   <th>Frequency</th>
                   <th>Recipient</th>
                   <th>Due Date</th>
+                  <th>Is Recurring</th>
+                  <th>Reminder Days Before</th>
                   <th>Notes</th>
                   <th>Edit</th>
                 </tr>
@@ -483,14 +518,54 @@ const Budgets = () => {
                         {editingId === budget._id ? (
                           <input
                             type="date"
-                            name="dueDate"
-                            value={editedRow.dueDate || ""}
+                            name="nextDueDate"
+                            value={editedRow.nextDueDate || ""}
                             onChange={handleEditChange}
                             onBlur={() => handleBlurSave()}
                             className={styles.gridInput}
                           />
                         ) : (
-                          budget.dueDate?.substring(0, 10)
+                          budget.nextDueDate?.substring(0, 10)
+                        )}
+                      </td>
+                      {/* Is Recurring*/}
+                      <td>
+                        {editingId === budget._id ? (
+                          <select
+                            name="isRecurring"
+                            value={editedRow.isRecurring ? "true" : "false"}
+                            onChange={(e) =>
+                              setEditedRow({
+                                ...editedRow,
+                                isRecurring: e.target.value === "true",
+                              })
+                            }
+                            onBlur={() => handleBlurSave()}
+                            className={styles.gridInput}
+                          >
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                          </select>
+                        ) : budget.isRecurring ? (
+                          "Yes"
+                        ) : (
+                          "No"
+                        )}
+                      </td>
+
+                      {/* Number of days before reminder*/}
+                      <td>
+                        {editingId === budget._id ? (
+                          <input
+                            type="number"
+                            name="reminderDaysBefore"
+                            value={editedRow.reminderDaysBefore || ""}
+                            onChange={handleEditChange}
+                            onBlur={() => handleBlurSave()}
+                            className={styles.gridInput}
+                          />
+                        ) : (
+                          budget.reminderDaysBefore
                         )}
                       </td>
 

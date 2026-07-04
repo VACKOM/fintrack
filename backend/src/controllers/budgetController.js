@@ -7,8 +7,10 @@ export const createBudget = async (req, res) => {
       category,
       amount,
       frequency,
-      dueDate,
+      nextDueDate,
+      reminderDaysBefore,
       paymentMethod,
+      isRecurring,
       recipient,
       notes,
     } = req.body;
@@ -18,7 +20,7 @@ export const createBudget = async (req, res) => {
       !category ||
       amount === undefined ||
       !frequency ||
-      !dueDate
+      !nextDueDate
     ) {
       return res.status(404).json({ message: "Provide all details" });
     }
@@ -29,7 +31,9 @@ export const createBudget = async (req, res) => {
       category,
       amount,
       frequency,
-      dueDate,
+      nextDueDate,
+      reminderDaysBefore,
+      isRecurring,
       paymentMethod,
       recipient,
       notes,
@@ -74,7 +78,10 @@ export const updateBudget = async (req, res) => {
     if (req.body.amount !== undefined) budget.amount = req.body.amount;
     budget.category = req.body.category || budget.category;
     budget.frequency = req.body.frequency || budget.frequency;
-    budget.dueDate = req.body.dueDate || budget.dueDate;
+    budget.nextDueDate = req.body.nextDueDate || budget.nextDueDate;
+    budget.reminderDaysBefore =
+      req.body.reminderDaysBefore || budget.reminderDaysBefore;
+    budget.isRecurring = req.body.isRecurring || budget.isRecurring;
     budget.paymentMethod = req.body.paymentMethod || budget.paymentMethod;
     budget.recipient = req.body.recipient || budget.recipient;
     budget.notes = req.body.notes || budget.notes;
@@ -85,5 +92,51 @@ export const updateBudget = async (req, res) => {
     return res
       .status(500)
       .json({ message: "System Error", error: error.message });
+  }
+};
+
+export const getBudgetCategorySummary = async (req, res) => {
+  try {
+    const summary = await Budget.aggregate([
+      {
+        $match: {
+          userId: req.user._id,
+        },
+      },
+      {
+        $group: {
+          _id: "$category",
+          totalAmount: { $sum: "$amount" },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          category: "$_id",
+          totalAmount: 1,
+        },
+      },
+      {
+        $sort: {
+          totalAmount: -1,
+        },
+      },
+    ]);
+
+    const totalBudget = summary.reduce(
+      (sum, item) => sum + item.totalAmount,
+      0
+    );
+
+    res.status(200).json({
+      message: "Budget category summary found",
+      totalBudget,
+      categories: summary,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "System Error",
+      error: error.message,
+    });
   }
 };

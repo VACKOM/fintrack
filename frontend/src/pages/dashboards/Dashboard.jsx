@@ -3,6 +3,7 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import { useEffect, useState } from "react";
 import { getDashboardSummary } from "../../services/dashboardService";
 import { getAllAccounts } from "../../services/accountServices";
+import { getBudgetCategorySummary } from "../../services/budgetServices";
 
 import {
   PieChart,
@@ -23,9 +24,14 @@ const Dashboard = () => {
     totalIncome: 0,
     totalExpense: 0,
   });
+
   const [accounts, setAccounts] = useState({});
   const [error, setError] = useState();
   const [loading, setLoading] = useState(true);
+  const [budgetSummary, setBudgetSummary] = useState({
+    totalBudget: 0,
+    categories: [],
+  });
 
   useEffect(() => {
     const fetchSummary = async () => {
@@ -57,6 +63,21 @@ const Dashboard = () => {
       }
     };
     fetchAccounts();
+  }, []);
+
+  useEffect(() => {
+    const budgetData = async () => {
+      try {
+        const budgetData = await getBudgetCategorySummary();
+        setBudgetSummary(budgetData);
+      } catch (error) {
+        console.log(error);
+        setError("Failed to load Budget records");
+      } finally {
+        setLoading(false);
+      }
+    };
+    budgetData();
   }, []);
 
   //   const accounts = [
@@ -104,14 +125,19 @@ const Dashboard = () => {
     { month: "Dec", income: 12000, expenses: 7200 },
   ];
 
-  const budgetData = [
-    { item: "Rent", value: 1600 },
-    { item: "Food", value: 1200 },
-    { item: "Transport", value: 800 },
-    { item: "Utilities", value: 650 },
-    { item: "Internet", value: 400 },
-    { item: "DSTV", value: 190 },
-  ];
+  const budgetChartData =
+    budgetSummary?.categories?.map((item) => ({
+      item: item.category,
+      value: item.totalAmount,
+    })) || [];
+  // const budgetData = [
+  //   { item: "Rent", value: 1600 },
+  //   { item: "Food", value: 1200 },
+  //   { item: "Transport", value: 800 },
+  //   { item: "Utilities", value: 650 },
+  //   { item: "Internet", value: 400 },
+  //   { item: "DSTV", value: 190 },
+  // ];
 
   if (loading) {
     return <p>Loading dashboard...</p>;
@@ -306,23 +332,34 @@ const Dashboard = () => {
         {/* Row 3*/}
         <div className={styles.row3}>
           <div className={styles.card}>
-            <h3>Budget Items and Values</h3>
-
+            <h3>Total Budget</h3>
+            <h2>GHS {budgetSummary.totalBudget}</h2>
             <div className={styles.barChartBox}>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={budgetData}>
+              <ResponsiveContainer width="100%" height={380}>
+                <BarChart
+                  data={budgetChartData}
+                  layout="vertical"
+                  margin={{ top: 20, right: 30, left: 80, bottom: 20 }}
+                >
                   <CartesianGrid
                     strokeDasharray="3 3"
                     stroke="rgba(255,255,255,0.2)"
                   />
 
                   <XAxis
-                    dataKey="item"
+                    type="number"
                     stroke="#ffffff"
                     tick={{ fill: "#ffffff" }}
                   />
 
-                  <YAxis stroke="#ffffff" tick={{ fill: "#ffffff" }} />
+                  <YAxis
+                    type="category"
+                    dataKey="item"
+                    stroke="#ffffff"
+                    tick={{ fill: "#ffffff", fontSize: 12 }}
+                    width={120}
+                    interval={0}
+                  />
 
                   <Tooltip
                     formatter={(value) => [`GHS ${value}`, "Budget"]}
@@ -336,7 +373,7 @@ const Dashboard = () => {
                     }}
                   />
 
-                  <Bar dataKey="value" fill="#93c5fd" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="value" fill="#93c5fd" radius={[0, 8, 8, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
