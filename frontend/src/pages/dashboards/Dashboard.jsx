@@ -3,7 +3,10 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import { useEffect, useState } from "react";
 import { getDashboardSummary } from "../../services/dashboardService";
 import { getAllAccounts } from "../../services/accountServices";
-import { getBudgetCategorySummary } from "../../services/budgetServices";
+import {
+  getBudgetCategorySummary,
+  getUpcomingExpenses,
+} from "../../services/budgetServices";
 
 import {
   PieChart,
@@ -28,6 +31,7 @@ const Dashboard = () => {
   const [accounts, setAccounts] = useState({});
   const [error, setError] = useState();
   const [loading, setLoading] = useState(true);
+  const [upcomingExpenses, setUpcomingExpenses] = useState([]);
   const [budgetSummary, setBudgetSummary] = useState({
     totalBudget: 0,
     categories: [],
@@ -39,6 +43,8 @@ const Dashboard = () => {
         const data = await getDashboardSummary();
         setSummary(data.summary);
         console.log(data);
+        const upcomingData = await getUpcomingExpenses();
+        setUpcomingExpenses(upcomingData.upcomingExpenses || []);
       } catch (error) {
         console.log(error);
         setError("Failed to load Dashboard Summary");
@@ -66,10 +72,13 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    const budgetData = async () => {
+    const fetchBudgetData = async () => {
       try {
         const budgetData = await getBudgetCategorySummary();
         setBudgetSummary(budgetData);
+
+        const upcomingData = await getUpcomingExpenses();
+        setUpcomingExpenses(upcomingData.upcomingExpenses || []);
       } catch (error) {
         console.log(error);
         setError("Failed to load Budget records");
@@ -77,20 +86,10 @@ const Dashboard = () => {
         setLoading(false);
       }
     };
-    budgetData();
+
+    fetchBudgetData();
   }, []);
 
-  //   const accounts = [
-  //     { name: "Salary Account", balance: 25000 },
-  //     { name: "Investment Account", balance: 32000 },
-  //     { name: "Savings Account", balance: 12000 },
-  //   ];
-
-  const upcomingExpenses = [
-    { name: "Rent", amount: 1600 },
-    { name: "DSTV", amount: 190 },
-    { name: "Feeding Fee", amount: 400 },
-  ];
   const exceededExpense = [
     { name: "Food", over: 540 },
     { name: "Transportation", over: 300 },
@@ -320,12 +319,19 @@ const Dashboard = () => {
           </div>
           <div className={styles.card}>
             <h3>Upcoming Expenses</h3>
-            {upcomingExpenses.map((expense) => (
-              <div className={styles.accountItem} key={expense.name}>
-                <span>{expense.name}</span>
-                <strong>GHS {expense.amount}</strong>
-              </div>
-            ))}
+
+            {upcomingExpenses.length === 0 ? (
+              <p>No upcoming expenses</p>
+            ) : (
+              upcomingExpenses.map((expense) => (
+                <div className={styles.accountItem} key={expense._id}>
+                  <span>{expense.budgetName}</span>
+                  <strong>
+                    GHS {expense.amount} - {expense.daysLeft} days left
+                  </strong>
+                </div>
+              ))
+            )}
           </div>
         </div>
 

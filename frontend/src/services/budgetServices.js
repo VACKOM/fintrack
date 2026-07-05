@@ -19,3 +19,8 @@ export const getBudgetCategorySummary = async () => {
   const response = await api.get("/budgets/summary/categories");
   return response.data;
 };
+
+export const getUpcomingExpenses = async () => {
+  const response = await api.get("/budgets/upcoming-expenses");
+  return response.data;
+};

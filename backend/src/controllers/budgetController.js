@@ -7,7 +7,7 @@ export const createBudget = async (req, res) => {
       category,
       amount,
       frequency,
-      nextDueDate,
+      nextnextDueDate,
       reminderDaysBefore,
       paymentMethod,
       isRecurring,
@@ -20,7 +20,7 @@ export const createBudget = async (req, res) => {
       !category ||
       amount === undefined ||
       !frequency ||
-      !nextDueDate
+      !nextnextDueDate
     ) {
       return res.status(404).json({ message: "Provide all details" });
     }
@@ -31,7 +31,7 @@ export const createBudget = async (req, res) => {
       category,
       amount,
       frequency,
-      nextDueDate,
+      nextnextDueDate,
       reminderDaysBefore,
       isRecurring,
       paymentMethod,
@@ -78,7 +78,7 @@ export const updateBudget = async (req, res) => {
     if (req.body.amount !== undefined) budget.amount = req.body.amount;
     budget.category = req.body.category || budget.category;
     budget.frequency = req.body.frequency || budget.frequency;
-    budget.nextDueDate = req.body.nextDueDate || budget.nextDueDate;
+    budget.nextnextDueDate = req.body.nextnextDueDate || budget.nextnextDueDate;
     budget.reminderDaysBefore =
       req.body.reminderDaysBefore || budget.reminderDaysBefore;
     budget.isRecurring = req.body.isRecurring || budget.isRecurring;
@@ -132,6 +132,48 @@ export const getBudgetCategorySummary = async (req, res) => {
       message: "Budget category summary found",
       totalBudget,
       categories: summary,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "System Error",
+      error: error.message,
+    });
+  }
+};
+export const getUpcomingExpenses = async (req, res) => {
+  try {
+    const budgets = await Budget.find({ userId: req.user._id });
+
+    const today = new Date();
+    const upcomingExpenses = budgets
+      .map((budget) => {
+        const nextDueDate = new Date(budget.nextDueDate);
+
+        const daysLeft = Math.ceil(
+          (nextDueDate - today) / (1000 * 60 * 60 * 24)
+        );
+
+        return {
+          _id: budget._id,
+          budgetName: budget.budgetName,
+          category: budget.category,
+          amount: budget.amount,
+          nextDueDate: budget.nextDueDate,
+          recipient: budget.recipient,
+          paymentMethod: budget.paymentMethod,
+          reminderDaysBefore: budget.reminderDaysBefore,
+          daysLeft,
+        };
+      })
+      .filter((budget) => {
+        return (
+          budget.daysLeft >= 0 && budget.daysLeft <= budget.reminderDaysBefore
+        );
+      });
+
+    res.status(200).json({
+      message: "Upcoming expenses found",
+      upcomingExpenses,
     });
   } catch (error) {
     res.status(500).json({
