@@ -274,13 +274,35 @@ const Transaction = () => {
                 {/* Transaction Category */}
                 <div className={styles.formGroup}>
                   <label>Category</label>
-                  <input
-                    type="text"
+                  <select
                     name="category"
                     value={formData.category}
                     onChange={handleChange}
-                    placeholder="Enter transaction category"
-                  />
+                  >
+                    <option value="">Select Category type</option>
+                    <option value="food & groceries">Food & Groceries</option>
+                    <option value="transportation">Transportation</option>
+                    <option value="rent">Rent</option>
+                    <option value="utilities">Utilities</option>
+                    <option value="entertainment">Entertainment</option>
+                    <option value="education">Education</option>
+                    <option value="child care">Child Care</option>
+                    <option value="beauty & cosmetics">
+                      Beauty & Cosmetics
+                    </option>
+                    <option value="healthcare">Healthcare</option>
+                    <option value="household">Household</option>
+                    <option value="savings">Savings</option>
+                    <option value="investments">Investments</option>
+                    <option value="insurance">Insurance</option>
+                    <option value="loan repayment">Loan Repayment</option>
+                    <option value="tithe">Tithe</option>
+                    <option value="offering">Offering</option>
+                    <option value="family">Family</option>
+                    <option value="support">Support</option>
+                    <option value="travel">travel</option>
+                    <option value="Miscellaneous">Miscellaneous</option>
+                  </select>
                 </div>
 
                 {/* Payment Method */}
