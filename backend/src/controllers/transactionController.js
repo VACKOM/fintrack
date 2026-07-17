@@ -4,9 +4,6 @@ export const createTransaction = async (req, res) => {
   try {
     const { type, name, amount, paymentMethod, notes, category } = req.body;
 
-    if (!type || !name || amount == undefined || !category) {
-      return res.status(400).json({ message: "Please provide all fields." });
-    }
     const transaction = await Transaction.create({
       userId: req.user._id,
       type: type,
@@ -28,12 +25,19 @@ export const createTransaction = async (req, res) => {
 
 export const getAllTransactions = async (req, res) => {
   try {
-    const transactions = await Transaction.find({ userId: req.user._id });
-    if (transactions.length === 0) {
-      return res.status(404).json({ message: "No Transactions found" });
+    const category = req.query.category;
+    const query = {
+      userId: req.user._id,
+    };
+    if (category) {
+      query.category = category;
     }
-    res.status(200).json({ message: "Transactions found", transactions });
+    const transactions = await Transaction.find(query).sort({ createdAt: -1 });
+    return res
+      .status(200)
+      .json({ message: "Transaction Found.", transactions });
   } catch (error) {
+    console.log(error.message);
     return res
       .status(500)
       .json({ message: "System Error", error: error.message });
@@ -65,31 +69,26 @@ export const getTransactonsById = async (req, res) => {
 
 export const updateTransaction = async (req, res) => {
   try {
-    const transactionId = req.params.id;
-    const transaction = await Transaction.findOne({
-      userId: req.user._id,
-      _id: transactionId,
-    });
-    if (!transaction) {
-      return res.status(400).json({ message: "Transaction ID is invalid" });
-    }
-    transaction.type = req.body.type || transaction.type;
-    transaction.name = req.body.name || transaction.name;
-    if (req.body.amount !== undefined) transaction.amount = req.body.amount;
-    transaction.category = req.body.category || transaction.category;
-    transaction.notes = req.body.category || transaction.notes;
-    transaction.paymentMethod =
-      req.body.paymentMethod || transaction.paymentMethod;
+    const updatedData = req.body;
+    const transaction = await Transaction.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        userId: req.user._id,
+      },
+      updatedData,
+      { new: true, runValidators: true }
+    );
 
-    const updatedTransaction = await transaction.save();
-    res.status(200).json({
-      message: "Transaction successfully updated.",
-      updatedTransaction,
-    });
+    if (!transaction) {
+      return res.status(404).json({ message: "Transaction not found." });
+    }
+    return;
+    res.status(200),
+      json({ message: "Transaction successfully updated.", transaction });
   } catch (error) {
     return res
       .status(500)
-      .json({ message: "Server Error", error: error.message });
+      .json({ message: "System Error", error: error.message });
   }
 };
 
@@ -194,5 +193,25 @@ export const summaryByMonth = async (req, res) => {
     return res
       .status(500)
       .json({ message: "System Error", error: error.message });
+  }
+};
+
+export const getAllExpenseOnly = async (req, res) => {
+  try {
+    const expenses = await Transaction.find({
+      userId: req.user._id,
+      type: "expense",
+    });
+
+    const expenseByCategory = expenses.reduce((acc, expense) => {
+      if (!acc[expense.category]) {
+        acc[expense.category] = 0;
+      }
+      acc[expense.category] += expense.amount;
+      return acc;
+    }, {});
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({ message: error.message });
   }
 };
