@@ -3,11 +3,11 @@ import {
   createAccount,
   getAllAccounts,
 } from "../../controllers/accountController.js";
-import { protect } from "../../middleware/authMiddleware.js";
+import { protect, authorize } from "../../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/", protect, createAccount);
-router.get("/", protect, getAllAccounts);
+router.post("/", protect, authorize, createAccount);
+router.get("/", protect, authorize, getAllAccounts);
 
 export default router;

@@ -28,3 +28,12 @@ export const protect = async (req, res, next) => {
     });
   }
 };
+
+export function authorize(role) {
+  return function (req, res, next) {
+    if (role !== req.user.role) {
+      return res.status(403).json({ message: "Forbidden" });
+    }
+    next();
+  };
+}
